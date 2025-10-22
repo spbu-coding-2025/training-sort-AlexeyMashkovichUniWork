@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stdio.h>
-#include <tgmath.h>
+
+#define MIN(a, b) (((a) < (b)) ? (a) : (b))
 
 void merge(int32_t * firstSeg, size_t firstSize, int32_t * secondSeg, size_t secondSize) {
 	static int32_t sortingBuffer[100];	// Static for easier allocation
@@ -66,7 +67,7 @@ void mergeSort(int32_t * array, size_t arraySize) {
 		size_t chunkStart = 0;
 
 		while (chunkStart + chunkSize < arraySize) {
-			merge(array+chunkStart, chunkSize, array+chunkStart+chunkSize, fmin(arraySize - (chunkStart + chunkSize), chunkSize));
+			merge(array+chunkStart, chunkSize, array+chunkStart+chunkSize, MIN(arraySize - (chunkStart + chunkSize), chunkSize));
 			chunkStart += 2 * chunkSize;
 		}
 
@@ -81,8 +82,6 @@ int main() {
 	// 
 	// Testing data does not exceed 32 bits
 	int32_t sortingBuffer[100];
-
-	char buff[30];
 
 	size_t curIdx = 0;
 	int rc;
